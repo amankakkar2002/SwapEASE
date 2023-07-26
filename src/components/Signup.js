@@ -69,7 +69,7 @@ const Signup = () => {
       dsubject,
     } = user;
   
-    const res = await fetch("/register", {
+    const res = await fetch("https://swap-ease-backend.vercel.app/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
