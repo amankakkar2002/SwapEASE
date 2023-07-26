@@ -11,7 +11,7 @@ const Details = () => {
 
   const callDetails = async () => {
     try {
-      const res = await fetch("/details", {
+      const res = await fetch("https://swap-ease-backend.vercel.app/details", {
         method: "GET",
         headers: {
           Accept: "application/json",
@@ -38,7 +38,7 @@ const Details = () => {
   }, []);
   const handleDeleteFormDetails = async () => {
     try {
-      const res = await fetch("/deleteFormDetails", {
+      const res = await fetch("https://swap-ease-backend.vercel.app/deleteFormDetails", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
