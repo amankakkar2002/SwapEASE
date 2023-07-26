@@ -11,7 +11,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const loginUser = async (e) => {
     e.preventDefault();
-    const res = await fetch("https://swap-ease-sigma.vercel.app/signin", {
+    const res = await fetch("https://swap-ease-backend.vercel.app/signin", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
