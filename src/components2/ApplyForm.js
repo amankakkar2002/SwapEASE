@@ -10,7 +10,6 @@ import Navbar2 from "./Navbar2";
 
 const ApplyForm = () => {
   const [userData, setUserData] = useState({});
-  const navigate = useNavigate();
   const [user, setUser] = useState({
     course: "",
     branch: "",
@@ -19,6 +18,10 @@ const ApplyForm = () => {
     esubject: "",
     dsubject: ""
   });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const navigate = useNavigate();
 
   let name, value;
   const handleInputs = (e) => {
@@ -38,13 +41,15 @@ const ApplyForm = () => {
       const data = await res.json();
       setUserData(data);
       console.log(data);
-      if (res.status !== 200) {
-        const error = new Error(res.error);
+      setLoading(false);
+      if (!res.ok) {
+        const error = new Error(data.error || "Failed to fetch data from the server");
         throw error;
       }
     } catch (err) {
       console.log(err);
-      navigate('/login');
+      setError('Failed to fetch data. Please try again later.');
+      setLoading(false);
     }
   };
 
@@ -84,14 +89,19 @@ const ApplyForm = () => {
 
   return (
     <>
-    <Navbar2 />
+ <Navbar2 />
       <div className="container px-4">
         <div className="container wrapper pb-5 px-4 pt-3">
         <div className="row">
           <div className="col-md-7 text-center">
           <h3 className="h3 text-center">Apply to Swap</h3>
           <div id='demo' className="demo2"></div>
-          <form method="POST" id='register-form'>
+          {loading ? (
+            <p>Loading...</p>
+          ) : error ? (
+            <p>{error}</p>
+          ) : (
+            <form method="POST" id='register-form'>
           <div className="d-flex justify-content-center py-2 fs-5">
               <img src={logo1} alt="logo1" className="img1 me-2 mt-2"></img>
               <input type="text" name="course" value={user.course} onChange={handleInputs} placeholder="Course (eg. Btech/MBA/etc)" className="px-3" />
@@ -117,15 +127,16 @@ const ApplyForm = () => {
             <input type="text" name="dsubject" value={user.dsubject} onChange={handleInputs} placeholder="Desired Subject" className="px-3" />
           </div>
             <button
-              input='true'
-              type="submit"
-              name="apply"
-              onClick={PostData}
-              className="button-signup"
-            >
-             Click to Apply
-            </button>
-          </form>
+                input='true'
+                type="submit"
+                name="apply"
+                onClick={PostData}
+                className="button-signup"
+              >
+                Click to Apply
+              </button>
+            </form>
+          )}
         </div>
         <div className="col-md-4 d-none d-md-block">
         <img src={logo} alt="logo" className="left2"></img>
@@ -136,4 +147,5 @@ const ApplyForm = () => {
     </>
   );
 };
+
 export default ApplyForm;
