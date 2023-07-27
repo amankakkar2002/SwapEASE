@@ -59,7 +59,7 @@ const Contact = () => {
   const contactForm = async (e) => {
     e.preventDefault();
     const { name, email, enrollment, message } = userData;
-    const res = await fetch("/contact", {
+    const res = await fetch("https://swap-ease-backend.vercel.app/contact", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
