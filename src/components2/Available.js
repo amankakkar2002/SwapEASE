@@ -36,9 +36,7 @@ const Swapped = () => {
       <Navbar2 />
       <div className='wrapper9 mx-2 mx-lg-5'>
        <h5>
-          <div className='d-flex justify-content-between'>
           <strong>AVAILABLE FOR SWAPPING</strong>
-          <div className='d-flex'>
         <input
           type="text"
           value={searchQuery}
@@ -47,8 +45,6 @@ const Swapped = () => {
           className='form-control'
         />
         <a className='btn bg-primary text-white ms-2' onClick={() => setSearchQuery('')}>Clear</a>
-      </div>
-      </div>
         </h5>
 
         <div className='table-responsive'>
