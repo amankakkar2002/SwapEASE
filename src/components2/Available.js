@@ -35,7 +35,7 @@ const Swapped = () => {
     <>
       <Navbar2 />
     <div className="container">
-      <div className='mx-2 mx-lg-5 shadow card'>
+      <div className='shadow p-3'>
        <h5>
           <strong>AVAILABLE FOR SWAPPING</strong>
         <input
