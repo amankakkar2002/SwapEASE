@@ -50,7 +50,7 @@ const Materials = () => {
   const PostData = async (e) => {
     e.preventDefault();
     const { subject, year, exam } = user;
-    const res = await fetch("/materials", {
+    const res = await fetch("https://swap-ease-backend.vercel.app/materials", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
