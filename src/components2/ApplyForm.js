@@ -50,41 +50,36 @@ const ApplyForm = () => {
     callApply();
   }, []);
 
-  const PostData = async (e) => {
-    e.preventDefault();
-    const email = userData.email;
-    const { course, branch, batch, year, esubject, dsubject } = user;
-    try {
-      const res = await fetch("https://swap-ease-backend.vercel.app/apply", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify({
-          email,
-          course,
-          branch,
-          batch,
-          year,
-          esubject,
-          dsubject,
-        }),
-      });
-      const data = await res.json();
-      if (res.ok) {
-        window.alert("Applied Successfully");
-        console.log("Successfully Applied");
-        // Redirect to details page or handle success
-      } else {
-        console.log("Invalid Registration");
-        // Show error message or handle error
-      }
-    } catch (err) {
-      console.error(err);
-      // Show error message or handle error
+const PostData = async (e) => {
+  e.preventDefault();
+  const { email, password } = user;
+
+  try {
+    const res = await fetch("https://swap-ease-backend.vercel.app/signin", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
+
+    const data = await res.json();
+    if (res.ok) {
+      // Store the received token in localStorage
+      localStorage.setItem("token", data.token);
+      // Rest of your code for handling successful login
+    } else {
+      console.log("Invalid user credentials");
+      // Show error message or handle unsuccessful login
     }
-  };
+  } catch (err) {
+    console.error(err);
+    // Show error message or handle error
+  }
+};
 
   return (
     <>
