@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState,useEffect } from "react";
+
+// import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
 import logo from "../images/apply.jpg";
 import logo1 from "../images/course.jpg";
@@ -9,7 +11,8 @@ import logo5 from "../images/subject.png";
 import Navbar2 from "./Navbar2";
 
 const ApplyForm = () => {
-  const [userData, setUserData] = useState({});
+  const [userData,setUserData]=useState({});
+  const navigate = useNavigate();
   const [user, setUser] = useState({
     course: "",
     branch: "",
@@ -18,48 +21,43 @@ const ApplyForm = () => {
     esubject: "",
     dsubject: ""
   });
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  const navigate = useNavigate();
-
+  
   let name, value;
   const handleInputs = (e) => {
+    console.log(e);
     name = e.target.name;
     value = e.target.value;
     setUser({ ...user, [name]: value });
   };
-
-  const callApply = async () => {
+const callApply = async () => {
+  
     try {
       const res = await fetch("/getdata", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
-      });
-      const data = await res.json();
+      }); 
+      const data=await res.json();
       setUserData(data);
       console.log(data);
-      setLoading(false);
-      if (!res.ok) {
-        const error = new Error(data.error || "Failed to fetch data from the server");
+      if(!res.status===200)
+      {
+        const error=new Error(res.error);
         throw error;
       }
+
     } catch (err) {
       console.log(err);
-      setError('Failed to fetch data. Please try again later.');
-      setLoading(false);
+      navigate('/login');
     }
-  };
-
+  }
   useEffect(() => {
     callApply();
-  }, []); // Add an empty dependency array to run the effect only once
-
+  });
   const PostData = async (e) => {
     e.preventDefault();
-    const email = userData.email;
+    const email=userData.email;
     const { course, branch, batch, year, esubject, dsubject } = user;
     const res = await fetch("/apply", {
       method: "POST",
@@ -78,30 +76,26 @@ const ApplyForm = () => {
     });
     const data = await res.json();
     if (res.status === 422 || !data) {
-      document.getElementById("demo").innerHTML = "Invalid Registration";
+      document.getElementById("demo").innerHTML="Invalid Registration";
       console.log("Invalid Registration");
     } else {
       window.alert("Registered Successfully");
-      console.log("Successful Registration");
+      console.log("Successfull Registration");
+
       navigate("/details");
     }
   };
 
   return (
     <>
- <Navbar2 />
+    <Navbar2 />
       <div className="container px-4">
         <div className="container wrapper pb-5 px-4 pt-3">
         <div className="row">
           <div className="col-md-7 text-center">
           <h3 className="h3 text-center">Apply to Swap</h3>
           <div id='demo' className="demo2"></div>
-          {loading ? (
-            <p>Loading...</p>
-          ) : error ? (
-            <p>{error}</p>
-          ) : (
-            <form method="POST" id='register-form'>
+          <form method="POST" id='register-form'>
           <div className="d-flex justify-content-center py-2 fs-5">
               <img src={logo1} alt="logo1" className="img1 me-2 mt-2"></img>
               <input type="text" name="course" value={user.course} onChange={handleInputs} placeholder="Course (eg. Btech/MBA/etc)" className="px-3" />
@@ -127,16 +121,15 @@ const ApplyForm = () => {
             <input type="text" name="dsubject" value={user.dsubject} onChange={handleInputs} placeholder="Desired Subject" className="px-3" />
           </div>
             <button
-                input='true'
-                type="submit"
-                name="apply"
-                onClick={PostData}
-                className="button-signup"
-              >
-                Click to Apply
-              </button>
-            </form>
-          )}
+              input='true'
+              type="submit"
+              name="apply"
+              onClick={PostData}
+              className="button-signup"
+            >
+             Click to Apply
+            </button>
+          </form>
         </div>
         <div className="col-md-4 d-none d-md-block">
         <img src={logo} alt="logo" className="left2"></img>
@@ -147,5 +140,4 @@ const ApplyForm = () => {
     </>
   );
 };
-
 export default ApplyForm;
