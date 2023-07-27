@@ -1,4 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState,useEffect } from "react";
+
+// import Navbar from "./Navbar";
+import { useNavigate } from "react-router-dom";
 import logo from "../images/apply.jpg";
 import logo1 from "../images/course.jpg";
 import logo2 from "../images/branch.png";
@@ -8,78 +11,80 @@ import logo5 from "../images/subject.png";
 import Navbar2 from "./Navbar2";
 
 const ApplyForm = () => {
-  const [userData, setUserData] = useState({});
+  const [userData,setUserData]=useState({});
+  const navigate = useNavigate();
   const [user, setUser] = useState({
     course: "",
     branch: "",
     batch: "",
     year: "",
     esubject: "",
-    dsubject: "",
+    dsubject: ""
   });
-
+  
   let name, value;
   const handleInputs = (e) => {
+    console.log(e);
     name = e.target.name;
     value = e.target.value;
     setUser({ ...user, [name]: value });
   };
-
-  const callApply = async () => {
+const callApply = async () => {
+  
     try {
-      const res = await fetch("https://swap-ease-backend.vercel.app/getdata", {
+      const res = await fetch("/getdata", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-      });
-      const data = await res.json();
+      }); 
+      const data=await res.json();
       setUserData(data);
       console.log(data);
-      if (!res.ok) {
-        throw new Error("Unauthorized");
+      if(!res.status===200)
+      {
+        const error=new Error(res.error);
+        throw error;
       }
+
     } catch (err) {
       console.log(err);
-      // Redirect to login page or handle unauthorized user
+      navigate('/login');
     }
-  };
-
+  }
   useEffect(() => {
     callApply();
-  }, []);
-
-const PostData = async (e) => {
-  e.preventDefault();
-  const { email, password } = user;
-
-  try {
-    const res = await fetch("https://swap-ease-backend.vercel.app/signin", {
+  });
+  const PostData = async (e) => {
+    e.preventDefault();
+    const email=userData.email;
+    const { course, branch, batch, year, esubject, dsubject } = user;
+    const res = await fetch("/apply", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         email,
-        password,
+        course,
+        branch,
+        batch,
+        year,
+        esubject,
+        dsubject
       }),
     });
-
     const data = await res.json();
-    if (res.ok) {
-      // Store the received token in localStorage
-      localStorage.setItem("token", data.token);
-      // Rest of your code for handling successful login
+    if (res.status === 422 || !data) {
+      document.getElementById("demo").innerHTML="Invalid Registration";
+      console.log("Invalid Registration");
     } else {
-      console.log("Invalid user credentials");
-      // Show error message or handle unsuccessful login
+      window.alert("Registered Successfully");
+      console.log("Successfull Registration");
+
+      navigate("/details");
     }
-  } catch (err) {
-    console.error(err);
-    // Show error message or handle error
-  }
-};
+  };
 
   return (
     <>
