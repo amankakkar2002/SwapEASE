@@ -34,7 +34,8 @@ const Swapped = () => {
   return (
     <>
       <Navbar2 />
-      <div className='wrapper9 mx-2 mx-lg-5'>
+    <div className="container">
+      <div className='mx-2 mx-lg-5 shadow card'>
        <h5>
           <strong>AVAILABLE FOR SWAPPING</strong>
         <input
@@ -79,6 +80,7 @@ const Swapped = () => {
             <p>No data available.</p>
           )}
         </div>
+            </div>
       </div>
     </>
   );
