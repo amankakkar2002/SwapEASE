@@ -23,7 +23,7 @@ const Materials = () => {
   };
   const callMaterials = async () => {
     try {
-      const res = await fetch("/details", {
+      const res = await fetch("https://swap-ease-backend.vercel.app/details", {
         method: "GET",
         headers: {
           Accept: "application/json",
