@@ -5,7 +5,7 @@ const Messages = () => {
   const [messages, setMessages] = useState([]); // initialize state with empty messages array
 
   const getAllMessages = () => {
-    fetch('/messages', {
+    fetch('https://swap-ease-backend.vercel.app/messages', {
       method: 'GET',
     })
       .then((res) => res.json())
@@ -20,7 +20,7 @@ const Messages = () => {
   }, []);
 
   const handleDelete = (name) => {
-    fetch(`/messages/${name}`, {
+    fetch(`https://swap-ease-backend.vercel.app/messages/${name}`, {
       method: 'DELETE',
     })
       .then((res) => res.json())
