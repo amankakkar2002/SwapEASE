@@ -37,12 +37,12 @@ const Swapped = () => {
     <div className="container">
       <div className='shadow p-3'>
        <div className="row">
-          <div className="col-md-6">
+          <div className="col-md-8">
             <h5>
               <strong>AVAILABLE FOR SWAPPING</strong>
             </h5>
           </div>
-          <div className="col-md-6">
+          <div className="col-md-4">
             <div className="input-group mb-2">
               <input
                 type="text"
