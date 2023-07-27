@@ -534,12 +534,17 @@ th, td {
   float: right;
 }
 
+@media(max-width:768px)
+{
+  .wrapper9
+  {
+    font-size:11px;
+  }
+}
 
 .wrapper9{
   height: auto;
   padding: 30px;
-  margin-left: auto;
-  margin-right: auto;
   margin-top: 50px;
   margin-bottom:20px;
   background: #ffffff;
