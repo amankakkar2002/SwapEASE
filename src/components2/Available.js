@@ -43,7 +43,7 @@ const Swapped = () => {
             </h5>
           </div>
           <div className="col-md-6">
-            <div className="input-group">
+            <div className="input-group mb-2">
               <input
                 type="text"
                 value={searchQuery}
