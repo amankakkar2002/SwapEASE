@@ -105,14 +105,14 @@ body{
 }
 
 .navbar-toggler-icon {
-  width: auto;
-  height:auto;
+  width: 1.5em;
+  height: 1.5em;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
 }
 
-@media (min-width: 992px) {
+@media (min-width: 768px) {
   .navbar-toggler {
     display: none;
   }
