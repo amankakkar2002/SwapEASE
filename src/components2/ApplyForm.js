@@ -24,33 +24,36 @@ const ApplyForm = () => {
     setUser((prevUser) => ({ ...prevUser, [name]: value }));
   };
 
-  const callApply = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        throw new Error('Unauthorized: No token found.');
-      }
-
-      const res = await fetch("https://swap-ease-backend.vercel.app/getdata", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
-        },
-      });
-
-      if (res.status === 200) {
-        const data = await res.json();
-        console.log(data);
-      } else {
-        throw new Error('Unauthorized: Token is invalid.');
-      }
-
-    } catch (err) {
-      console.log(err);
-      navigate('/login');
+const callApply = async () => {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('Unauthorized: No token found.');
     }
-  };
+
+    const res = await fetch("https://swap-ease-backend.vercel.app/getdata", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    });
+
+    if (res.status === 200) {
+      const data = await res.json();
+      console.log(data);
+    } else if (res.status === 401) {
+      throw new Error('Unauthorized: Token is invalid.');
+    } else {
+      throw new Error('Unexpected error occurred.');
+    }
+
+  } catch (err) {
+    console.log(err);
+    navigate('/login');
+  }
+};
+
 
   const PostData = async (e) => {
     e.preventDefault();
