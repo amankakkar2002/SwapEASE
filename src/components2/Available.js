@@ -6,24 +6,25 @@ import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 
 const Swapped = () => {
   const [data, setData] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const getAllUser = () => {
-    fetch("https://swap-ease-backend.vercel.app/AllUser", {
-      method: "GET",
+    fetch(`/AllUser?query=${searchQuery}`, {
+      method: 'GET',
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data, "userData");
+        console.log(data, 'userData');
         setData(data.data);
       })
       .catch((error) => {
-        console.error("Error fetching data:", error);
+        console.error('Error fetching data:', error);
       });
   };
 
   useEffect(() => {
     getAllUser();
-  }, []);
+  }, [searchQuery]);
 
   function handleDelete(name) {
     const newList = data.filter((li) => li.name !== name);
@@ -34,10 +35,21 @@ const Swapped = () => {
     <>
       <Navbar2 />
       <div className='wrapper9'>
-        <h5>
+       <h5>
+          <div className='d-flex justify-content-between'>
           <strong>AVAILABLE FOR SWAPPING</strong>
+          <div className='d-flex'>
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Search by subject..."
+          className='form-control'
+        />
+        <a className='btn bg-primary text-white ms-2' onClick={() => setSearchQuery('')}>Clear</a>
+      </div>
+      </div>
         </h5>
-        <h6> </h6>
 
         <div className='col-md-6'>
           {data.length > 0 ? (
