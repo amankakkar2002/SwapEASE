@@ -9,7 +9,7 @@ const Navbar2 = () => {
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
         <div className="container-fluid">
           <img src={logo} alt="logo"></img>
-          <button
+          <a
             className="navbar-toggler"
             type="button"
             data-bs-toggle="collapse"
@@ -19,7 +19,7 @@ const Navbar2 = () => {
             aria-label="Toggle navigation"
           >
             <span className="navbar-toggler-icon"></span>
-          </button>
+          </a>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
 
