@@ -36,18 +36,27 @@ const Swapped = () => {
       <Navbar2 />
     <div className="container">
       <div className='shadow p-3'>
-       <h5>
-          <strong>AVAILABLE FOR SWAPPING</strong>
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Search by subject..."
-          className='form-control'
-        />
-        <a className='btn bg-primary text-white ms-2' onClick={() => setSearchQuery('')}>Clear</a>
-        </h5>
-
+       <div className="row">
+          <div className="col-md-6">
+            <h5>
+              <strong>AVAILABLE FOR SWAPPING</strong>
+            </h5>
+          </div>
+          <div className="col-md-6">
+            <div className="input-group">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search by subject..."
+                className="form-control"
+              />
+              <button className="btn btn-primary" onClick={() => setSearchQuery('')}>
+                Clear
+              </button>
+            </div>
+          </div>
+        </div>
         <div className='table-responsive'>
           {data.length > 0 ? (
             <table className='table table-bordered'>
