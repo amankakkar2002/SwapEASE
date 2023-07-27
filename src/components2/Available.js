@@ -51,9 +51,9 @@ const Swapped = () => {
                 placeholder="Search by subject..."
                 className="form-control"
               />
-              <button className="btn btn-primary" onClick={() => setSearchQuery('')}>
+              <a className="btn btn-primary" onClick={() => setSearchQuery('')}>
                 Clear
-              </button>
+              </a>
             </div>
           </div>
         </div>
