@@ -20,7 +20,7 @@ const Contact = () => {
   const userContact = async () => {
     try {
       const token = getTokenFromCookie(); // Get the token from cookies
-      const res = await fetch("/getdata", {
+      const res = await fetch("https://swap-ease-backend.vercel.app/getdata", {
         method: "GET",
         headers: {
           Accept: "application/json",
