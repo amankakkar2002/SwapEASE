@@ -31,58 +31,49 @@ const Swapped = () => {
     setData(newList);
   }
 
- return (
+  return (
     <>
-      <div className="container">
-        <div className="row">
-          <div className="col-md-6">
-            <h5>
-              <strong>AVAILABLE FOR SWAPPING</strong>
-            </h5>
-          </div>
-          <div className="col-md-6">
-            <div className="input-group">
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search by subject..."
-                className="form-control"
-              />
-              <button className="btn btn-primary" onClick={() => setSearchQuery('')}>
-                Clear
-              </button>
-            </div>
-          </div>
-        </div>
+      <Navbar2 />
+      <div className='wrapper9 mx-2 mx-lg-5'>
+       <h5>
+          <strong>AVAILABLE FOR SWAPPING</strong>
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Search by subject..."
+          className='form-control'
+        />
+        <a className='btn bg-primary text-white ms-2' onClick={() => setSearchQuery('')}>Clear</a>
+        </h5>
 
         <div className='table-responsive'>
           {data.length > 0 ? (
             <table className='table table-bordered'>
               <thead>
-                <tr>
-                  <th><b>Name</b></th>
-                  <th><b>Sector</b></th>
-                  <th><b>Desired Subject</b></th>
-                  <th><b>Existing Subject</b></th>
-                  <th><b>Mail</b></th>
+              <tr>
+                <th><b>Name</b></th>
+                <th><b>Sector</b></th>
+                <th><b>Desired Subject</b></th>
+                <th><b>Existing Subject</b></th>
+                <th><b>Mail</b></th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.map(i => (
+                <tr key={i.name}>
+                  <td style={{ border: '1px solid #ddd', padding: '8px' }}>{i.name}</td>
+                  <td style={{ border: '1px solid #ddd', padding: '8px' }}>{i.sector}</td>
+                  <td style={{ border: '1px solid #ddd', padding: '8px' }}>{i.dsubject}</td>
+                  <td style={{ border: '1px solid #ddd', padding: '8px' }}>{i.esubject}</td>
+                  <td style={{ border: '1px solid #ddd', padding: '8px' }}>
+                    <a href={`mailto:${i.email}`}><FontAwesomeIcon icon={faEnvelope} /></a>
+                    {/* Example usage of handleDelete */}
+                    {/* <button onClick={() => handleDelete(i.name)}>Delete</button> */}
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {data.map(i => (
-                  <tr key={i.name}>
-                    <td>{i.name}</td>
-                    <td>{i.sector}</td>
-                    <td>{i.dsubject}</td>
-                    <td>{i.esubject}</td>
-                    <td>
-                      <a href={`mailto:${i.email}`}><FontAwesomeIcon icon={faEnvelope} /></a>
-                      {/* Example usage of handleDelete */}
-                      {/* <button onClick={() => handleDelete(i.name)}>Delete</button> */}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
+              ))}
+                </tbody>
             </table>
           ) : (
             <p>No data available.</p>
