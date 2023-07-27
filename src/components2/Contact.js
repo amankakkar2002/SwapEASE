@@ -10,22 +10,24 @@ const Contact = () => {
     enrollment: "",
     message: "",
   });
-const userContact = async () => {
-  try {
-    const token = localStorage.getItem('token'); // Get the token from localStorage (assuming you save the token in localStorage after login)
-    if (!token) {
-      // Handle the case when the token is not available
-      throw new Error('No token found');
-    }
 
-    const res = await fetch("https://swap-ease-backend.vercel.app/getdata", {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`, // Include the token in the Authorization header
-      },
-    });
+  const userContact = async () => {
+    try {
+      const token = localStorage.getItem("userToken"); // Get the token from localStorage (assuming you save the token in localStorage after login)
+      if (!token) {
+        // Handle the case when the token is not available
+        throw new Error("No token found");
+      }
+
+      const res = await fetch("https://swap-ease-backend.vercel.app/getdata", {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+        },
+      });
+
       const data = await res.json();
       setUserData({
         ...userData,
@@ -33,16 +35,17 @@ const userContact = async () => {
         email: data.email,
         enrollment: data.enrollment,
       });
-      console.log(data);
-      if (!res.status === 200) {
-        const error = new Error(res.error);
-        throw error;
+
+      if (!res.ok) {
+        // Check for the response status using "ok" property
+        throw new Error("Failed to fetch user data");
       }
     } catch (err) {
       console.log(err);
       navigate("/login");
     }
   };
+
   useEffect(() => {
     userContact();
   }, []);
@@ -60,6 +63,7 @@ const userContact = async () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("userToken")}`, // Include the token in the Authorization header
       },
       body: JSON.stringify({
         name,
