@@ -6,18 +6,28 @@ import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 
 const Swapped = () => {
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const getAllUser = () => {
     fetch("/AllUser", {
       method: "GET",
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error('Failed to fetch data from the server');
+        }
+        return res.json();
+      })
       .then((data) => {
         console.log(data, "userData");
         setData(data.data);
+        setLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
+        setError('Failed to fetch data. Please try again later.');
+        setLoading(false);
       });
   };
 
@@ -40,7 +50,11 @@ const Swapped = () => {
         <h6> </h6>
 
         <div className='col-md-6'>
-          {data.length > 0 ? (
+          {loading ? (
+            <p>Loading...</p>
+          ) : error ? (
+            <p>{error}</p>
+          ) : data.length > 0 ? (
             <table style={{ width: 1100 }}>
               <tr>
                 <td style={{ border: '1px solid #ddd', padding: '8px' }}><b>Name</b></td>
