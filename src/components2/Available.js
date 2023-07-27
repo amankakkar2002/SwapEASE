@@ -8,7 +8,7 @@ const Swapped = () => {
   const [data, setData] = useState([]);
 
   const getAllUser = () => {
-    fetch("/AllUser", {
+    fetch("https://swap-ease-backend.vercel.app/AllUser", {
       method: "GET",
     })
       .then((res) => res.json())
