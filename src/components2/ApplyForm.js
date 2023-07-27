@@ -29,34 +29,34 @@ const ApplyForm = () => {
     setUser({ ...user, [name]: value });
   };
 
-  const callApply = async () => {
-    try {
-      const token = localStorage.getItem("userToken"); // Get the token from local storage
+const callApply = async () => {
+  try {
+    const token = localStorage.getItem("userToken"); // Get the token from local storage
 
-      const res = await fetch("https://swap-ease-backend.vercel.app/getdata", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // Add the token to the request headers
-        },
-      });
+    const res = await fetch("https://swap-ease-backend.vercel.app/getdata", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`, // Add the token to the request headers
+      },
+    });
 
-      if (!res.ok) {
-        if (res.status === 401) {
-          throw new Error("Unauthorized: No token provided");
-        }
-        const error = new Error("Error fetching data");
-        throw error;
+    if (!res.ok) {
+      if (res.status === 401) {
+        throw new Error("Unauthorized: No token provided");
       }
-
-      const data = await res.json();
-      setUserData(data);
-      console.log(data);
-    } catch (err) {
-      console.log(err);
-      navigate("/login");
+      const error = new Error("Error fetching data");
+      throw error;
     }
-  };
+
+    const data = await res.json();
+    setUserData(data);
+    console.log(data);
+  } catch (err) {
+    console.log(err);
+    navigate("/login");
+  }
+};
 
   useEffect(() => {
     callApply();
