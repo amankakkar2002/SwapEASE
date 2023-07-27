@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState,useEffect } from "react";
+
+// import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
 import logo from "../images/apply.jpg";
 import logo1 from "../images/course.jpg";
@@ -9,7 +11,7 @@ import logo5 from "../images/subject.png";
 import Navbar2 from "./Navbar2";
 
 const ApplyForm = () => {
-  const [userData, setUserData] = useState({});
+  const [userData,setUserData]=useState({});
   const navigate = useNavigate();
   const [user, setUser] = useState({
     course: "",
@@ -19,60 +21,48 @@ const ApplyForm = () => {
     esubject: "",
     dsubject: ""
   });
-
+  
   let name, value;
   const handleInputs = (e) => {
+    console.log(e);
     name = e.target.name;
     value = e.target.value;
     setUser({ ...user, [name]: value });
   };
-
-  const callApply = async () => {
+const callApply = async () => {
+  
     try {
-      // Get the token from the local storage
-      const token = localStorage.getItem('token');
-
       const res = await fetch("https://swap-ease-backend.vercel.app/getdata", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          // Set the Authorization header with the token retrieved from local storage
-          "Authorization": `Bearer ${token}`,
         },
-      });
-
-      const data = await res.json();
+      }); 
+      const data=await res.json();
       setUserData(data);
       console.log(data);
-
-      if (!res.ok) {
-        const error = new Error(data.error || "Failed to fetch data");
+      if(!res.status===200)
+      {
+        const error=new Error(res.error);
         throw error;
       }
+
     } catch (err) {
       console.log(err);
       navigate('/login');
     }
-  };
-
+  }
   useEffect(() => {
     callApply();
-  }, []);
-
+  });
   const PostData = async (e) => {
     e.preventDefault();
-    const email = userData.email;
+    const email=userData.email;
     const { course, branch, batch, year, esubject, dsubject } = user;
-
-    // Get the token from the local storage
-    const token = localStorage.getItem('token');
-
     const res = await fetch("https://swap-ease-backend.vercel.app/apply", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        // Set the Authorization header with the token retrieved from local storage
-        "Authorization": `Bearer ${token}`,
       },
       body: JSON.stringify({
         email,
@@ -81,20 +71,21 @@ const ApplyForm = () => {
         batch,
         year,
         esubject,
-        dsubject,
+        dsubject
       }),
     });
-
     const data = await res.json();
-    if (res.ok) {
-      window.alert("Registered Successfully");
-      console.log("Successful Registration");
-      navigate("/details");
-    } else {
-      document.getElementById("demo").innerHTML = "Invalid Registration";
+    if (res.status === 422 || !data) {
+      document.getElementById("demo").innerHTML="Invalid Registration";
       console.log("Invalid Registration");
+    } else {
+      window.alert("Registered Successfully");
+      console.log("Successfull Registration");
+
+      navigate("/details");
     }
   };
+
   return (
     <>
     <Navbar2 />
