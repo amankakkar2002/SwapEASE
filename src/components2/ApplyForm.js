@@ -14,7 +14,7 @@ const ApplyForm = () => {
     batch: "",
     year: "",
     esubject: "",
-    dsubject: ""
+    dsubject: "",
   });
 
   const navigate = useNavigate();
@@ -24,36 +24,34 @@ const ApplyForm = () => {
     setUser((prevUser) => ({ ...prevUser, [name]: value }));
   };
 
-const callApply = async () => {
-  try {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      throw new Error('Unauthorized: No token found.');
+  const callApply = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        throw new Error("Unauthorized: No token found.");
+      }
+
+      const res = await fetch("https://swap-ease-backend.vercel.app/getdata", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (res.status === 200) {
+        const data = await res.json();
+        console.log(data);
+      } else if (res.status === 401) {
+        throw new Error("Unauthorized: Token is invalid.");
+      } else {
+        throw new Error("Unexpected error occurred.");
+      }
+    } catch (err) {
+      console.log(err);
+      navigate("/login");
     }
-
-    const res = await fetch("https://swap-ease-backend.vercel.app/getdata", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
-      },
-    });
-
-    if (res.status === 200) {
-      const data = await res.json();
-      console.log(data);
-    } else if (res.status === 401) {
-      throw new Error('Unauthorized: Token is invalid.');
-    } else {
-      throw new Error('Unexpected error occurred.');
-    }
-
-  } catch (err) {
-    console.log(err);
-    navigate('/login');
-  }
-};
-
+  };
 
   const PostData = async (e) => {
     e.preventDefault();
@@ -79,13 +77,19 @@ const callApply = async () => {
     });
 
     const data = await res.json();
-    if (res.status === 422 || !data) {
-      document.getElementById("demo").innerHTML = "Invalid Registration";
-      console.log("Invalid Registration");
-    } else {
-      window.alert("Registered Successfully");
-      console.log("Successful Registration");
+    if (res.status === 201) {
+      window.alert("Applied Successfully");
+      console.log("Successful Application");
       navigate("/details");
+    } else if (res.status === 422) {
+      document.getElementById("demo").innerHTML = "Invalid Application";
+      console.log("Invalid Application");
+    } else if (res.status === 404) {
+      document.getElementById("demo").innerHTML = "User not found";
+      console.log("User not found");
+    } else {
+      document.getElementById("demo").innerHTML = "Unexpected error occurred";
+      console.log("Unexpected error occurred");
     }
   };
 
