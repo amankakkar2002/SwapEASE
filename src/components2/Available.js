@@ -34,7 +34,7 @@ const Swapped = () => {
   return (
     <>
       <Navbar2 />
-      <div className='wrapper9'>
+      <div className=''>
        <h5>
           <div className='d-flex justify-content-between'>
           <strong>AVAILABLE FOR SWAPPING</strong>
