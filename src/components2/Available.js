@@ -63,7 +63,8 @@ const Swapped = () => {
               </tr>
               {data.map(i => (
                 <tr key={i.name}>
-                  <td style={{ border: '1px solid #ddd', padding: '8px' }}>{i.name} ({i.sector})</td>
+                  <td style={{ border: '1px solid #ddd', padding: '8px' }}>{i.name}</td>
+                  <td style={{ border: '1px solid #ddd', padding: '8px' }}>{i.sector}</td>
                   <td style={{ border: '1px solid #ddd', padding: '8px' }}><a href={`mailto:${i.email}`}>{i.enrollment}</a></td>
                   <td style={{ border: '1px solid #ddd', padding: '8px' }}>{i.dsubject}</td>
                   <td style={{ border: '1px solid #ddd', padding: '8px' }}>{i.esubject}</td>
