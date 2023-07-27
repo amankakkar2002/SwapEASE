@@ -57,7 +57,6 @@ const Swapped = () => {
               <tr>
                 <td style={{ border: '1px solid #ddd', padding: '8px' }}><b>Name</b></td>
                 <td style={{ border: '1px solid #ddd', padding: '8px' }}><b>Sector</b></td>
-                <td style={{ border: '1px solid #ddd', padding: '8px' }}><b>Enrollment No.</b></td>
                 <td style={{ border: '1px solid #ddd', padding: '8px' }}><b>Desired Subject</b></td>
                 <td style={{ border: '1px solid #ddd', padding: '8px' }}><b>Existing Subject</b></td>
                 <td style={{ border: '1px solid #ddd', padding: '8px' }}><b>Mail</b></td>
@@ -66,7 +65,6 @@ const Swapped = () => {
                 <tr key={i.name}>
                   <td style={{ border: '1px solid #ddd', padding: '8px' }}>{i.name}</td>
                   <td style={{ border: '1px solid #ddd', padding: '8px' }}>{i.sector}</td>
-                  <td style={{ border: '1px solid #ddd', padding: '8px' }}><a href={`mailto:${i.email}`}>{i.enrollment}</a></td>
                   <td style={{ border: '1px solid #ddd', padding: '8px' }}>{i.dsubject}</td>
                   <td style={{ border: '1px solid #ddd', padding: '8px' }}>{i.esubject}</td>
                   <td style={{ border: '1px solid #ddd', padding: '8px' }}>
