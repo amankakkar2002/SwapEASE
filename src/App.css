@@ -1,5 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap');
 .App {
   text-align: center;
+  font-family: 'Poppins', sans-serif;
+  
 }
 
 .App-logo {
@@ -22,10 +25,12 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: rgb(134, 55, 55);
+  font-family: 'Poppins', sans-serif;
 }
 
 .App-link {
   color: #61dafb;
+  font-family: 'Poppins', sans-serif;
 }
 
 @keyframes App-logo-spin {
@@ -38,6 +43,11 @@
 }
 
 /* ************************************** */
+/* NAVBAR LINKS */
+.navbar_links{
+  text-decoration: none;
+
+}
 
 /* LOGIN CSS CODE */
 
@@ -46,19 +56,17 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  /* font-family: "Poppins", sans-serif; */
-  /* overflow: hidden; */
+  font-family: 'Poppins', sans-serif;
+  /* font-family: 'Roboto Slab', serif; */
 }
 body{
   background: #ffffff;
-  /* font-family: 'Roboto Slab', serif; */
-  font-family: 'Cambo', serif !important;
+  font-family: 'Poppins', sans-serif;
 }
 .wrapper{
   box-shadow: 0 10px 35px rgba(-5, -5, 5, 5);
   border-radius: 10px;
 }
-
 .wrapper2
 {
   width: 250px;
@@ -129,16 +137,26 @@ label{
 
 form input{
   border: none;
-  border-radius: 50px;
-  border-bottom: 1px solid rgb(109, 106, 106);
+  border-radius: 5px;
+  /* border-bottom: 1px solid rgb(109, 106, 106); */
+  border: 2px solid black;
   width: 70%;
+  font-size: 22px;
 }
-
-form input.select{
-  border: none;
-  border-radius: 50px;
-  border-bottom: 1px solid rgb(109, 106, 106);
+form input:focus{
+  outline: none;
+  background-color: transparent;
+  border-radius: 5px;
+  border: 4px double black;
   width: 70%;
+  font-size: 22px;
+}
+form input.select{
+  
+  border-radius: 2px;
+  border: 4px double black;
+  width: 70%;
+  font-size: 22px;
 }
 
 .img1
