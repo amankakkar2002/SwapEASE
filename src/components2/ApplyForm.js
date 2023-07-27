@@ -32,7 +32,7 @@ const ApplyForm = () => {
 const callApply = async () => {
   
     try {
-      const res = await fetch("/getdata", {
+      const res = await fetch("https://swap-ease-backend.vercel.app/getdata", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -59,7 +59,7 @@ const callApply = async () => {
     e.preventDefault();
     const email=userData.email;
     const { course, branch, batch, year, esubject, dsubject } = user;
-    const res = await fetch("/apply", {
+    const res = await fetch("https://swap-ease-backend.vercel.app/apply", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
