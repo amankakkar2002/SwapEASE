@@ -9,68 +9,74 @@ const Details = () => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState({});
 
-  const callDetails = async () => {
-    try {
-      const res = await fetch("https://swap-ease-backend.vercel.app/details", {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      });
-      const data = await res.json();
-      console.log(data);
-      setUserData(data);
+ const callDetails = async () => {
+  try {
+    const token = localStorage.getItem('userToken'); // Get the token from local storage
 
-      if (!res.status === 200) {
-        const error = new Error(res.error);
-        throw error;
-      }
-    } catch (err) {
-      console.log(err);
-      navigate("/login");
+    const res = await fetch("https://swap-ease-backend.vercel.app/details", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`, // Add the token to the request headers
+      },
+    });
+
+    const data = await res.json();
+    console.log(data);
+    setUserData(data);
+
+    if (!res.status === 200) {
+      const error = new Error(res.error);
+      throw error;
     }
-  };
+  } catch (err) {
+    console.log(err);
+    navigate("/login");
+  }
+};
+
 
   useEffect(() => {
     callDetails();
   }, []);
-  const handleDeleteFormDetails = async () => {
-    try {
-      const res = await fetch("https://swap-ease-backend.vercel.app/deleteFormDetails", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({
-          userId: userData._id, // Assuming userData contains the user ID
-        }),
-      });
+ const handleDeleteFormDetails = async () => {
+  try {
+    const token = localStorage.getItem('userToken'); // Get the token from local storage
 
-      const data = await res.json();
-      if (res.status === 200) {
-        // Update the user data in the frontend with "N/A" values for the specified fields
-        setUserData({
-          ...userData,
-          course: "N/A",
-          branch: "N/A",
-          batch: "N/A",
-          year: "N/A",
-          dsubject: "N/A",
-          esubject: "N/A",
-        });
-        alert(data.message); // Show a success message to the user
-      } else {
-        // Handle error response from the server
-        alert("Failed to delete form details");
-      }
-    } catch (err) {
-      console.log(err);
-      navigate("/login");
+    const res = await fetch("https://swap-ease-backend.vercel.app/deleteFormDetails", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`, // Add the token to the request headers
+      },
+      body: JSON.stringify({
+        userId: userData._id, // Assuming userData contains the user ID
+      }),
+    });
+
+    const data = await res.json();
+    if (res.status === 200) {
+      // Update the user data in the frontend with "N/A" values for the specified fields
+      setUserData({
+        ...userData,
+        course: "N/A",
+        branch: "N/A",
+        batch: "N/A",
+        year: "N/A",
+        dsubject: "N/A",
+        esubject: "N/A",
+      });
+      alert(data.message); // Show a success message to the user
+    } else {
+      // Handle error response from the server
+      alert("Failed to delete form details");
     }
-  };
+  } catch (err) {
+    console.log(err);
+    navigate("/login");
+  }
+};
+
   return (
     <>
       <Navbar2 />
