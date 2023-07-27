@@ -10,23 +10,15 @@ const Contact = () => {
     enrollment: "",
     message: "",
   });
-
-  // Function to manually get the token from cookies
-  const getTokenFromCookie = () => {
-    const token = document.cookie.replace(/(?:(?:^|.*;\s*)jwtToken\s*=\s*([^;]*).*$)|^.*$/, "$1");
-    return token;
-  };
-
   const userContact = async () => {
     try {
-      const token = getTokenFromCookie(); // Get the token from cookies
       const res = await fetch("https://swap-ease-backend.vercel.app/getdata", {
         method: "GET",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // Send the token in the request headers
         },
+        credentials: "include",
       });
       const data = await res.json();
       setUserData({
@@ -45,7 +37,6 @@ const Contact = () => {
       navigate("/login");
     }
   };
-
   useEffect(() => {
     userContact();
   }, []);
@@ -80,7 +71,6 @@ const Contact = () => {
       setUserData({ ...userData, message: "" });
     }
   };
-
   return (
     <>
       <Navbar2 />
@@ -88,10 +78,60 @@ const Contact = () => {
         <div className="container wrapper pb-5 px-4 pt-3">
           <h3 className="text-center pb-3"> Contact Us!!</h3>
           <form method="POST" id="contact_form">
-            {/* ... */}
-
+            <div className="row">
+              <div className="col-md-4 pb-4 text-center">
+                <input
+                  type="text"
+                  name="name"
+                  className="px-2 text-center border rounded"
+                  value={userData.name}
+                  onChange={handleInputs}
+                  placeholder="Your Name"
+                  required
+                  readOnly
+                ></input>
+              </div>
+              <div className="col-md-4 pb-4 text-center">
+                <input
+                  type="text"
+                  name="email"
+                  className="px-2 text-center border rounded"
+                  value={userData.email}
+                  onChange={handleInputs}
+                  placeholder="Your Email"
+                  required
+                  readOnly
+                ></input>
+              </div>
+              <div className="col-md-4 pb-4 text-center">
+                <input
+                  type="text"
+                  name="enrollment"
+                  className="px-2 text-center border rounded"
+                  value={userData.enrollment}
+                  onChange={handleInputs}
+                  placeholder="Your Enrollment"
+                  required
+                  readOnly
+                ></input>
+              </div>
+            </div>
+            <div className="mx-4 text-center p-3" style={{ maxWidth: "100%" }}>
+              <textarea 
+                name="message"
+                placeholder="Your Message...."
+                value={userData.message}
+                onChange={handleInputs}
+                className="p-3"
+                style={{ width: "100%", height: "auto" , border:"1px soild black", borderRadius:"10px"}}
+              ></textarea>
+            </div>
             <div className="text-center">
-              <button type="submit" onClick={contactForm} className="signinbutton">
+              <button
+                type="submit"
+                onClick={contactForm}
+                className="signinbutton"
+              >
                 Send Message{" "}
               </button>
             </div>
