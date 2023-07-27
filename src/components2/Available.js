@@ -51,16 +51,19 @@ const Swapped = () => {
       </div>
         </h5>
 
-        <div className='col-md-6'>
+        <div className='table-responsive'>
           {data.length > 0 ? (
-            <table style={{ width: 1100 }}>
+            <table className='table table-bordered'>
+              <thead>
               <tr>
-                <td style={{ border: '1px solid #ddd', padding: '8px' }}><b>Name</b></td>
-                <td style={{ border: '1px solid #ddd', padding: '8px' }}><b>Sector</b></td>
-                <td style={{ border: '1px solid #ddd', padding: '8px' }}><b>Desired Subject</b></td>
-                <td style={{ border: '1px solid #ddd', padding: '8px' }}><b>Existing Subject</b></td>
-                <td style={{ border: '1px solid #ddd', padding: '8px' }}><b>Mail</b></td>
+                <th><b>Name</b></th>
+                <th><b>Sector</b></th>
+                <th><b>Desired Subject</b></th>
+                <th><b>Existing Subject</b></th>
+                <th><b>Mail</b></th>
               </tr>
+            </thead>
+            <tbody>
               {data.map(i => (
                 <tr key={i.name}>
                   <td style={{ border: '1px solid #ddd', padding: '8px' }}>{i.name}</td>
@@ -74,6 +77,7 @@ const Swapped = () => {
                   </td>
                 </tr>
               ))}
+                </tbody>
             </table>
           ) : (
             <p>No data available.</p>
