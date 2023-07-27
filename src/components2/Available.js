@@ -56,6 +56,7 @@ const Swapped = () => {
             <table style={{ width: 1100 }}>
               <tr>
                 <td style={{ border: '1px solid #ddd', padding: '8px' }}><b>Name</b></td>
+                <td style={{ border: '1px solid #ddd', padding: '8px' }}><b>Sector</b></td>
                 <td style={{ border: '1px solid #ddd', padding: '8px' }}><b>Enrollment No.</b></td>
                 <td style={{ border: '1px solid #ddd', padding: '8px' }}><b>Desired Subject</b></td>
                 <td style={{ border: '1px solid #ddd', padding: '8px' }}><b>Existing Subject</b></td>
