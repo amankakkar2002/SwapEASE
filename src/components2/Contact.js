@@ -10,16 +10,22 @@ const Contact = () => {
     enrollment: "",
     message: "",
   });
-  const userContact = async () => {
-    try {
-      const res = await fetch("https://swap-ease-backend.vercel.app/getdata", {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      });
+const userContact = async () => {
+  try {
+    const token = localStorage.getItem('token'); // Get the token from localStorage (assuming you save the token in localStorage after login)
+    if (!token) {
+      // Handle the case when the token is not available
+      throw new Error('No token found');
+    }
+
+    const res = await fetch("https://swap-ease-backend.vercel.app/getdata", {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+      },
+    });
       const data = await res.json();
       setUserData({
         ...userData,
