@@ -10,7 +10,7 @@ const Navbar2 = () => {
         <div className="container-fluid">
           <img src={logo} alt="logo"></img>
           <a
-            className="navbar-toggler"
+            className="navbar-toggler m-2"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#navbarSupportedContent"
