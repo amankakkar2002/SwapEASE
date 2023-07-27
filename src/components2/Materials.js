@@ -1,5 +1,4 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar2 from "./Navbar2";
 import logo from "../images/question.png";
@@ -21,48 +20,50 @@ const Materials = () => {
     value = e.target.value;
     setUser({ ...user, [name]: value });
   };
-const callMaterials = async () => {
-  try {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      // Handle the case when there is no token in local storage (unauthorized user)
-      navigate("/login");
-      return;
-    }
 
-    const res = await fetch("https://swap-ease-backend.vercel.app/details", {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    if (!res.ok) {
-      if (res.status === 401) {
-        // Handle unauthorized (invalid/expired token) response
-        // Redirect the user to the login page
-        localStorage.removeItem("token"); // Remove the invalid token from local storage
+  const callMaterials = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        // Handle the case when there is no token in local storage (unauthorized user)
         navigate("/login");
         return;
       }
 
-      const error = new Error(res.error);
-      throw error;
-    }
+      const res = await fetch("https://swap-ease-backend.vercel.app/details", {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    const data = await res.json();
-    setUserData(data);
-  } catch (err) {
-    console.log(err);
-    // Handle error (e.g., show error message)
-  }
-};
+      if (!res.ok) {
+        if (res.status === 401) {
+          // Handle unauthorized (invalid/expired token) response
+          // Redirect the user to the login page
+          localStorage.removeItem("token"); // Remove the invalid token from local storage
+          navigate("/login");
+          return;
+        }
+
+        const error = new Error(res.error);
+        throw error;
+      }
+
+      const data = await res.json();
+      setUserData(data);
+    } catch (err) {
+      console.log(err);
+      // Handle error (e.g., show error message)
+    }
+  };
 
   useEffect(() => {
     callMaterials();
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Empty dependency array to execute only once when the component mounts
 
   const PostData = async (e) => {
     e.preventDefault();
