@@ -9,7 +9,7 @@ const Swapped = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
   const getAllUser = () => {
-    fetch(`/AllUser?query=${searchQuery}`, {
+    fetch(`https://swap-ease-backend.vercel.app/AllUser?query=${searchQuery}`, {
       method: 'GET',
     })
       .then((res) => res.json())
