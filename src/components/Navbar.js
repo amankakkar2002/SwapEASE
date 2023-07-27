@@ -11,7 +11,7 @@ const Navbar = () => {
       <img src={logo} alt="logo" className="navbar-img"></img>
     </a>
     <a
-      className="navbar-toggler navbar-button m-2"
+      className="navbar-toggler m-2"
       type="button"
       data-bs-toggle="collapse"
       data-bs-target="#navbarSupportedContent"
