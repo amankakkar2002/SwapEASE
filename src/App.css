@@ -135,6 +135,14 @@ label{
     font-weight: bold;
 }
 
+@media(max-width:768px)
+{
+  form input{
+    font-size: 12px;
+    width:100%;
+  }
+}
+
 form input{
   border: none;
   border-radius: 5px;
