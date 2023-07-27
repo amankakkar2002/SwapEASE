@@ -1,6 +1,4 @@
-import React, { useState,useEffect } from "react";
-
-// import Navbar from "./Navbar";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../images/apply.jpg";
 import logo1 from "../images/course.jpg";
@@ -11,7 +9,7 @@ import logo5 from "../images/subject.png";
 import Navbar2 from "./Navbar2";
 
 const ApplyForm = () => {
-  const [userData,setUserData]=useState({});
+  const [userData, setUserData] = useState({});
   const navigate = useNavigate();
   const [user, setUser] = useState({
     course: "",
@@ -21,43 +19,42 @@ const ApplyForm = () => {
     esubject: "",
     dsubject: ""
   });
-  
+
   let name, value;
   const handleInputs = (e) => {
-    console.log(e);
     name = e.target.name;
     value = e.target.value;
     setUser({ ...user, [name]: value });
   };
-const callApply = async () => {
-  
+
+  const callApply = async () => {
     try {
       const res = await fetch("/getdata", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
-      }); 
-      const data=await res.json();
+      });
+      const data = await res.json();
       setUserData(data);
       console.log(data);
-      if(!res.status===200)
-      {
-        const error=new Error(res.error);
+      if (res.status !== 200) {
+        const error = new Error(res.error);
         throw error;
       }
-
     } catch (err) {
       console.log(err);
       navigate('/login');
     }
-  }
+  };
+
   useEffect(() => {
     callApply();
-  });
+  }, []); // Add an empty dependency array to run the effect only once
+
   const PostData = async (e) => {
     e.preventDefault();
-    const email=userData.email;
+    const email = userData.email;
     const { course, branch, batch, year, esubject, dsubject } = user;
     const res = await fetch("/apply", {
       method: "POST",
@@ -76,12 +73,11 @@ const callApply = async () => {
     });
     const data = await res.json();
     if (res.status === 422 || !data) {
-      document.getElementById("demo").innerHTML="Invalid Registration";
+      document.getElementById("demo").innerHTML = "Invalid Registration";
       console.log("Invalid Registration");
     } else {
       window.alert("Registered Successfully");
-      console.log("Successfull Registration");
-
+      console.log("Successful Registration");
       navigate("/details");
     }
   };
