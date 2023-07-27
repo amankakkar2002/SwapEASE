@@ -21,13 +21,18 @@ const Login = () => {
         password,
       }),
     });
-    const data = res.json();
-    if (res.status === 400 || !data) {
+    const data = await res.json();
+    if (res.status === 400 || !data.token) {
       document.getElementById("demo").innerHTML = "Invalid Credentials....";
     } else {
+      // Manually store the token in local storage
+      localStorage.setItem("userToken", data.token);
+
       if (email === "swapeasenow@gmail.com") {
         navigate("/messages");
-      } else navigate("/Details");
+      } else {
+        navigate("/Details");
+      }
     }
   };
   return (
