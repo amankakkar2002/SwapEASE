@@ -10,7 +10,7 @@ const Navbar = () => {
     <a href="/">
       <img src={logo} alt="logo" className="navbar-img"></img>
     </a>
-    <button
+    <a
       className="navbar-toggler navbar-button m-2"
       type="button"
       data-bs-toggle="collapse"
@@ -20,7 +20,7 @@ const Navbar = () => {
       aria-label="Toggle navigation"
     >
       <span className="navbar-toggler-icon"></span>
-    </button>
+    </a>
     <div className="collapse navbar-collapse" id="navbarSupportedContent">
       <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
         <li className="nav-item">
