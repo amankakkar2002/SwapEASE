@@ -21,28 +21,45 @@ const Materials = () => {
     value = e.target.value;
     setUser({ ...user, [name]: value });
   };
-  const callMaterials = async () => {
-    try {
-      const res = await fetch("https://swap-ease-backend.vercel.app/details", {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      });
-      const data = await res.json();
-      setUserData(data);
-
-      if (!res.status === 200) {
-        const error = new Error(res.error);
-        throw error;
-      }
-    } catch (err) {
-      console.log(err);
+const callMaterials = async () => {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      // Handle the case when there is no token in local storage (unauthorized user)
       navigate("/login");
+      return;
     }
-  };
+
+    const res = await fetch("https://swap-ease-backend.vercel.app/details", {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!res.ok) {
+      if (res.status === 401) {
+        // Handle unauthorized (invalid/expired token) response
+        // Redirect the user to the login page
+        localStorage.removeItem("token"); // Remove the invalid token from local storage
+        navigate("/login");
+        return;
+      }
+
+      const error = new Error(res.error);
+      throw error;
+    }
+
+    const data = await res.json();
+    setUserData(data);
+  } catch (err) {
+    console.log(err);
+    // Handle error (e.g., show error message)
+  }
+};
+
   useEffect(() => {
     callMaterials();
   });
