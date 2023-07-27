@@ -1,6 +1,4 @@
-import React, { useState,useEffect } from "react";
-
-// import Navbar from "./Navbar";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../images/apply.jpg";
 import logo1 from "../images/course.jpg";
@@ -11,7 +9,6 @@ import logo5 from "../images/subject.png";
 import Navbar2 from "./Navbar2";
 
 const ApplyForm = () => {
-  const [userData,setUserData]=useState({});
   const navigate = useNavigate();
   const [user, setUser] = useState({
     course: "",
@@ -21,48 +18,23 @@ const ApplyForm = () => {
     esubject: "",
     dsubject: ""
   });
-  
-  let name, value;
+
   const handleInputs = (e) => {
-    console.log(e);
-    name = e.target.name;
-    value = e.target.value;
+    const { name, value } = e.target;
     setUser({ ...user, [name]: value });
   };
-const callApply = async () => {
-  
-    try {
-      const res = await fetch("https://swap-ease-backend.vercel.app/getdata", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }); 
-      const data=await res.json();
-      setUserData(data);
-      console.log(data);
-      if(!res.status===200)
-      {
-        const error=new Error(res.error);
-        throw error;
-      }
 
-    } catch (err) {
-      console.log(err);
-      navigate('/login');
-    }
-  }
-  useEffect(() => {
-    callApply();
-  });
   const PostData = async (e) => {
     e.preventDefault();
-    const email=userData.email;
+    const token = localStorage.getItem("userToken"); // Get the token from local storage
+    const email = localStorage.getItem("userEmail"); // Get the user's email from local storage
+
     const { course, branch, batch, year, esubject, dsubject } = user;
     const res = await fetch("https://swap-ease-backend.vercel.app/apply", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`, // Include the token in the Authorization header
       },
       body: JSON.stringify({
         email,
@@ -71,17 +43,17 @@ const callApply = async () => {
         batch,
         year,
         esubject,
-        dsubject
+        dsubject,
       }),
     });
+
     const data = await res.json();
     if (res.status === 422 || !data) {
-      document.getElementById("demo").innerHTML="Invalid Registration";
+      document.getElementById("demo").innerHTML = "Invalid Registration";
       console.log("Invalid Registration");
     } else {
       window.alert("Registered Successfully");
-      console.log("Successfull Registration");
-
+      console.log("Successful Registration");
       navigate("/details");
     }
   };
