@@ -139,7 +139,7 @@ form input{
   border: none;
   border-radius: 5px;
   /* border-bottom: 1px solid rgb(109, 106, 106); */
-  border: 2px solid black;
+  border: 1px solid black;
   width: 70%;
   font-size: 22px;
 }
