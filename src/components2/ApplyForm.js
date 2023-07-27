@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import logo from "../images/apply.jpg";
 import logo1 from "../images/course.jpg";
 import logo2 from "../images/branch.png";
 import logo3 from "../images/batch.png";
@@ -9,7 +8,6 @@ import logo5 from "../images/subject.png";
 import Navbar2 from "./Navbar2";
 
 const ApplyForm = () => {
-  const navigate = useNavigate();
   const [user, setUser] = useState({
     course: "",
     branch: "",
@@ -19,9 +17,39 @@ const ApplyForm = () => {
     dsubject: ""
   });
 
+  const navigate = useNavigate();
+
   const handleInputs = (e) => {
     const { name, value } = e.target;
-    setUser({ ...user, [name]: value });
+    setUser((prevUser) => ({ ...prevUser, [name]: value }));
+  };
+
+  const callApply = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        throw new Error('Unauthorized: No token found.');
+      }
+
+      const res = await fetch("https://swap-ease-backend.vercel.app/getdata", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+      });
+
+      if (res.status === 200) {
+        const data = await res.json();
+        console.log(data);
+      } else {
+        throw new Error('Unauthorized: Token is invalid.');
+      }
+
+    } catch (err) {
+      console.log(err);
+      navigate('/login');
+    }
   };
 
   const PostData = async (e) => {
