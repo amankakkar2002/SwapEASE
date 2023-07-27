@@ -29,73 +29,62 @@ const ApplyForm = () => {
     value = e.target.value;
     setUser({ ...user, [name]: value });
   };
-const getTokenFromLocalStorage = () => {
-  const token = localStorage.getItem("userToken");
-  return token;
-};
-
 const callApply = async () => {
-  try {
-    const token = getTokenFromLocalStorage();
-    if (!token) {
-      throw new Error("No authentication token found");
-    }
+  
+    try {
+      const res = await fetch("/getdata", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }); 
+      const data=await res.json();
+      setUserData(data);
+      console.log(data);
+      if(!res.status===200)
+      {
+        const error=new Error(res.error);
+        throw error;
+      }
 
-    const res = await fetch("/getdata", {
-      method: "GET",
+    } catch (err) {
+      console.log(err);
+      navigate('/login');
+    }
+  }
+  useEffect(() => {
+    callApply();
+  });
+  const PostData = async (e) => {
+    e.preventDefault();
+    const email=userData.email;
+    const { course, branch, batch, year, esubject, dsubject } = user;
+    const res = await fetch("/apply", {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`, // Include the token in the headers
       },
+      body: JSON.stringify({
+        email,
+        course,
+        branch,
+        batch,
+        year,
+        esubject,
+        dsubject
+      }),
     });
     const data = await res.json();
-    setUserData(data);
-    console.log(data);
-    if (!res.status === 200) {
-      const error = new Error(res.error);
-      throw error;
+    if (res.status === 422 || !data) {
+      document.getElementById("demo").innerHTML="Invalid Registration";
+      console.log("Invalid Registration");
+    } else {
+      window.alert("Registered Successfully");
+      console.log("Successfull Registration");
+
+      navigate("/details");
     }
-  } catch (err) {
-    console.log(err);
-    navigate('/login');
-  }
-};
-
-const PostData = async (e) => {
-  e.preventDefault();
-  const token = getTokenFromLocalStorage();
-  if (!token) {
-    throw new Error("No authentication token found");
-  }
-
-  const { course, branch, batch, year, esubject, dsubject } = user;
-  const res = await fetch("/apply", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`, // Include the token in the headers
-    },
-    body: JSON.stringify({
-      email: userData.email,
-      course,
-      branch,
-      batch,
-      year,
-      esubject,
-      dsubject,
-    }),
-  });
-  const data = await res.json();
-  if (res.status === 422 || !data) {
-    document.getElementById("demo").innerHTML = "Invalid Registration";
-    console.log("Invalid Registration");
-  } else {
-    window.alert("Registered Successfully");
-    console.log("Successful Registration");
-
-    navigate("/details");
-  }
-};
+  };
 
   return (
     <>
