@@ -39,7 +39,7 @@ const Login = () => {
     <>
       <Navbar />
       <div className="container py-3 px-4 mt-lg-4">
-      <div className="container wrapper p-5">
+      <div className="container wrapper py-5">
         <div className="row">
           <div className="col-md-5 d-md-flex align-items-center justify-content-center d-none">
             <div>
