@@ -1,7 +1,4 @@
-import React, { useState,useEffect } from "react";
-
-// import Navbar from "./Navbar";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import logo from "../images/apply.jpg";
 import logo1 from "../images/course.jpg";
 import logo2 from "../images/branch.png";
@@ -11,78 +8,81 @@ import logo5 from "../images/subject.png";
 import Navbar2 from "./Navbar2";
 
 const ApplyForm = () => {
-  const [userData,setUserData]=useState({});
-  const navigate = useNavigate();
+  const [userData, setUserData] = useState({});
   const [user, setUser] = useState({
     course: "",
     branch: "",
     batch: "",
     year: "",
     esubject: "",
-    dsubject: ""
+    dsubject: "",
   });
-  
+
   let name, value;
   const handleInputs = (e) => {
-    console.log(e);
     name = e.target.name;
     value = e.target.value;
     setUser({ ...user, [name]: value });
   };
-const callApply = async () => {
-  
+
+  const callApply = async () => {
     try {
       const res = await fetch("https://swap-ease-backend.vercel.app/getdata", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-      }); 
-      const data=await res.json();
+      });
+      const data = await res.json();
       setUserData(data);
       console.log(data);
-      if(!res.status===200)
-      {
-        const error=new Error(res.error);
-        throw error;
+      if (!res.ok) {
+        throw new Error("Unauthorized");
       }
-
     } catch (err) {
       console.log(err);
-      navigate('/login');
+      // Redirect to login page or handle unauthorized user
     }
-  }
+  };
+
   useEffect(() => {
     callApply();
-  });
+  }, []);
+
   const PostData = async (e) => {
     e.preventDefault();
-    const email=userData.email;
+    const email = userData.email;
     const { course, branch, batch, year, esubject, dsubject } = user;
-    const res = await fetch("https://swap-ease-backend.vercel.app/apply", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email,
-        course,
-        branch,
-        batch,
-        year,
-        esubject,
-        dsubject
-      }),
-    });
-    const data = await res.json();
-    if (res.status === 422 || !data) {
-      document.getElementById("demo").innerHTML="Invalid Registration";
-      console.log("Invalid Registration");
-    } else {
-      window.alert("Registered Successfully");
-      console.log("Successfull Registration");
-
-      navigate("/details");
+    try {
+      const res = await fetch("https://swap-ease-backend.vercel.app/apply", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({
+          email,
+          course,
+          branch,
+          batch,
+          year,
+          esubject,
+          dsubject,
+        }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        window.alert("Applied Successfully");
+        console.log("Successfully Applied");
+        // Redirect to details page or handle success
+      } else {
+        console.log("Invalid Registration");
+        // Show error message or handle error
+      }
+    } catch (err) {
+      console.error(err);
+      // Show error message or handle error
     }
   };
 
