@@ -4,7 +4,7 @@ import Navbar3 from './Navbar3';
 const Accepted = () => {
   const handleClearDatabase = async () => {
     try {
-      const res = await fetch('/clearDatabase', {
+      const res = await fetch('https://swap-ease-backend.vercel.app/clearDatabase', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -22,7 +22,7 @@ const Accepted = () => {
   };
   const handleFormDelete = async () => {
     try {
-      const res = await fetch('/clearForms', {
+      const res = await fetch('https://swap-ease-backend.vercel.app/clearForms', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
