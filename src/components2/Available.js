@@ -64,6 +64,7 @@ const Swapped = () => {
               <tr>
                 <th><b>Name</b></th>
                 <th><b>Sector</b></th>
+                <th><b>Year</b></th>
                 <th><b>Desired Subject</b></th>
                 <th><b>Existing Subject</b></th>
                 <th><b>Mail</b></th>
@@ -74,6 +75,7 @@ const Swapped = () => {
                 <tr key={i.name}>
                   <td style={{ border: '1px solid #ddd', padding: '8px' }}>{i.name}</td>
                   <td style={{ border: '1px solid #ddd', padding: '8px' }}>{i.sector}</td>
+                  <td style={{ border: '1px solid #ddd', padding: '8px' }}>{i.year}</td>
                   <td style={{ border: '1px solid #ddd', padding: '8px' }}>{i.dsubject}</td>
                   <td style={{ border: '1px solid #ddd', padding: '8px' }}>{i.esubject}</td>
                   <td style={{ border: '1px solid #ddd', padding: '8px' }}>
