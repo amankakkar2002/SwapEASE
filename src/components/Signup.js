@@ -27,6 +27,7 @@ const Signup = () => {
     // salt:""
   });
   const [emailError, setEmailError] = useState("");
+  const [otp, setOtp] = useState("");
   let name, value;
   const handleInputs = (e) => {
     console.log(e);
@@ -87,6 +88,7 @@ const Signup = () => {
         year,
         esubject,
         dsubject,
+        otp,
       }),
     });
   
@@ -230,6 +232,14 @@ const Signup = () => {
                   value={user.dsubject}
                   onChange={handleInputs}
                 />
+                     <input
+      type="text"
+      name="otp"
+      value={otp}
+      onChange={(e) => setOtp(e.target.value)}
+      placeholder="Enter OTP"
+      className="px-3"
+   />
                 <button
                   input="true"
                   type="submit"
